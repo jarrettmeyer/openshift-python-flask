@@ -12,7 +12,11 @@ application = app
 @app.route('/')
 @app.route('/index')
 def route_index():
-    app.logger.debug('Serving %s.', request.endpoint)
+    app.logger.debug('This is a debug message from %s.', request.endpoint)
+    app.logger.info('This is an info message from %s.', request.endpoint)
+    app.logger.error('This is an error message from %s.', request.endpoint)
+    app.logger.warning('This is a warning message from %s.', request.endpoint)
+    app.logger.critical('This is a critical message from %s.', request.endpoint)
     return ('Hello, World!', 200)
 
 
