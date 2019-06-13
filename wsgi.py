@@ -1,9 +1,10 @@
 """
 Defines the WSGI (Web Server Gateway Interface) for the application.
 """
+import os
 from flask import Flask, request
 from flask.logging import default_handler
-from logging import DEBUG, Logger, getLogger
+from logging import DEBUG, ERROR, INFO, Logger, getLogger
 
 app = Flask('flask-demo')
 application = app
@@ -21,6 +22,15 @@ def route_index():
 
 
 if __name__ == '__main__':
-    app.logger.setLevel(DEBUG)
-    app.logger.info('Starting application %s.', app.name)
+    logging_level = os.environ.get('LOGGING_LEVEL', None)
+
+    # Configure logging.
+    if logging_level == 'DEBUG':
+        app.logger.setLevel(DEBUG)
+    if logging_level == 'INFO':
+        app.logger.setLevel(INFO)
+    else:
+        app.logger.setLevel(ERROR)
+
+    # Start the application.
     app.run(host='0.0.0.0', port=8080, debug=True)
